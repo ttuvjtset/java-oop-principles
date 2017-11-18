@@ -1,4 +1,4 @@
-package prax2.airport;
+package _martinn.prax02.airport;
 
 import _kruglovaa.prax2.airline.AirlineTicketService;
 import _kruglovaa.prax2.securitygate.SecurityGateDatabase;

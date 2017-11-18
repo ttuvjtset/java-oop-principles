@@ -1,4 +1,4 @@
-package prax2;
+package _martinn.prax02;
 
 import _kruglovaa.prax2.airline.AirlineTicketService;
 import _kruglovaa.prax2.airline.NordicaTicketService;

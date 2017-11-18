@@ -1,4 +1,4 @@
-package prax2.securitygate;
+package _martinn.prax02.securitygate;
 
 import _kruglovaa.prax2.airline.BoardingPass;
 

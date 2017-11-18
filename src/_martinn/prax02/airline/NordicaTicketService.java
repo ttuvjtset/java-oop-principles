@@ -1,4 +1,4 @@
-package prax2.airline;
+package _martinn.prax02.airline;
 
 import java.util.ArrayList;
 import java.util.List;
