@@ -1,7 +1,7 @@
 package _martin.prax02.airport;
 
-import _kruglovaa.prax2.airline.AirlineTicketService;
-import _kruglovaa.prax2.securitygate.SecurityGateDatabase;
+import _martin.prax02.airline.AirlineTicketService;
+import _martin.prax02.securitygate.SecurityGateDatabase;
 
 public class AirportController {
 

@@ -6,6 +6,12 @@ public class NordicaBoardingPass implements BoardingPass {
     private String lastName;
     private long ticketCode;
 
+    public int getGateID() {
+        return gateID;
+    }
+
+    private int gateID;
+
     public NordicaBoardingPass(String firstName, String lastName,
                                long ticketCode) {
         this.firstName = firstName;
@@ -28,4 +34,18 @@ public class NordicaBoardingPass implements BoardingPass {
         return ticketCode;
     }
 
+    @Override
+    public void setProcessedByGateID(int gateID) {
+        this.gateID = gateID;
+    }
+
+    @Override
+    public String toString() {
+        return "NordicaBoardingPass{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", ticketCode=" + ticketCode +
+                ", gateID=" + gateID +
+                '}';
+    }
 }

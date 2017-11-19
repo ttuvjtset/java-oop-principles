@@ -6,4 +6,8 @@ public interface BoardingPass {
     public String getPassengerLastName();
 
     public long getTicketCode();
+
+    public void setProcessedByGateID(int gateID);
+
+    public int getGateID();
 }

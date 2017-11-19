@@ -5,6 +5,7 @@ import kt11_threads.airline.NordicaTicketService;
 import kt11_threads.securitygate.SecurityGate;
 import kt11_threads.securitygate.SecurityGateBackup;
 import kt11_threads.securitygate.SecurityGateDatabase;
+import kt11_threads.securitygate.SecurityGateStatistics;
 import kt11_threads.storage.TicketArchive;
 import kt11_threads.storage.TicketStorage;
 
@@ -41,13 +42,25 @@ public class AirportController {
         gateRunnerBackup.start();
         //gateRunnerBackup.wait();
 
-        Thread.sleep(19_000);
+        Thread.sleep(18_000);
 
         gateRunner1.interrupt();
         gateRunner2.interrupt();
 
+        Thread statisticsForGate1 = printStatisticForGate(1);
+        statisticsForGate1.join();
+        printStatisticForGate(2);
+
+
         // System.out.println(archive.getArchivedPasses().toString());
         // System.out.println(archive.getArchivedPasses().size());
+    }
+
+    private Thread printStatisticForGate(int gateID) {
+        SecurityGateStatistics securityGateStatistics = new SecurityGateStatistics(archive, gateID);
+        Thread securityGateStatisticsThread = new Thread(securityGateStatistics);
+        securityGateStatisticsThread.start();
+        return securityGateStatisticsThread;
     }
 
     private Thread startAndReturnNewGate(int gateID) {

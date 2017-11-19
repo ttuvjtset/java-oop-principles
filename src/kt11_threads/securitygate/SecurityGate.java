@@ -4,7 +4,8 @@ import kt11_threads.airline.BoardingPass;
 import kt11_threads.storage.TicketArchive;
 import kt11_threads.storage.TicketStorage;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 public class SecurityGate implements SecurityGateDatabase {
@@ -25,6 +26,9 @@ public class SecurityGate implements SecurityGateDatabase {
     }
 
     private void processTicket(BoardingPass boardingPass) {
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("hh:mm:ss");
+
         System.out.println("Registreeritud pardakaart (Gate: " + getGateID() + ") nr: "
                 + boardingPass.getTicketCode()
                 + ": "
@@ -32,7 +36,7 @@ public class SecurityGate implements SecurityGateDatabase {
                 + " "
                 + boardingPass.getPassengerLastName()
                 + " "
-                + LocalDateTime.now().toString());
+                + LocalTime.now().format(formatter));
     }
 
     private void fetchTickets() throws InterruptedException {
@@ -41,9 +45,10 @@ public class SecurityGate implements SecurityGateDatabase {
 //            ticket.ifPresent(this::processTicket);
             if (ticket.isPresent()) {
 				processTicket(ticket.get());
+				ticket.get().setProcessedByGateID(gateID);
 				archive.addTicket(ticket.get());
 			}
-            Thread.sleep(50);
+            //Thread.sleep(50);
 
         }
     }

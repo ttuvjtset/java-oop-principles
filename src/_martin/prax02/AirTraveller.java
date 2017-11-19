@@ -1,10 +1,10 @@
 package _martin.prax02;
 
-import _kruglovaa.prax2.airline.AirlineTicketService;
-import _kruglovaa.prax2.airline.NordicaTicketService;
-import _kruglovaa.prax2.airport.AirportController;
-import _kruglovaa.prax2.securitygate.SecurityGate;
-import _kruglovaa.prax2.securitygate.SecurityGateDatabase;
+import _martin.prax02.airline.AirlineTicketService;
+import _martin.prax02.airline.NordicaTicketService;
+import _martin.prax02.airport.AirportController;
+import _martin.prax02.securitygate.SecurityGate;
+import _martin.prax02.securitygate.SecurityGateDatabase;
 
 public class AirTraveller {
 	public static void main(String[] args) {
