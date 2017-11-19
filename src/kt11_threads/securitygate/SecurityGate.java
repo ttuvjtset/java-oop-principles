@@ -44,11 +44,11 @@ public class SecurityGate implements SecurityGateDatabase {
             Optional<BoardingPass> ticket = storage.getTicket();
 //            ticket.ifPresent(this::processTicket);
             if (ticket.isPresent()) {
-				processTicket(ticket.get());
-				ticket.get().setProcessedByGateID(gateID);
-				archive.addTicket(ticket.get());
-			}
-            //Thread.sleep(50);
+                processTicket(ticket.get());
+                ticket.get().setProcessedByGateID(gateID);
+                archive.addTicket(ticket.get());
+            }
+            Thread.sleep(50);
 
         }
     }

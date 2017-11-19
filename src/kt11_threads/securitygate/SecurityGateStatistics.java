@@ -13,7 +13,7 @@ public class SecurityGateStatistics implements Runnable{
     }
 
     private void printStatisticForGate() {
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         System.out.println("Statistics for Gate " + gateID);
 
         Long countNum = archive.getArchivedPasses()
@@ -22,14 +22,11 @@ public class SecurityGateStatistics implements Runnable{
                 .count();
         System.out.println("Total tickets at Gate " + gateID + ": " + countNum);
 
-        System.out.println(Math.random());
         archive.getArchivedPasses()
                 .parallelStream()
                 .filter(s -> s.getGateID() == gateID)
                 .limit(1)
                 .forEach(System.out::println);
-
-        System.out.println("========================");
     }
 
     @Override

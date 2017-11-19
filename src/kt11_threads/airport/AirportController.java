@@ -42,14 +42,23 @@ public class AirportController {
         gateRunnerBackup.start();
         //gateRunnerBackup.wait();
 
-        Thread.sleep(18_000);
+        Thread.sleep(10_000);
+
+//        System.out.println(gateRunner1.isInterrupted() + " " + gateRunner1.isAlive());
+//        System.out.println(gateRunner2.isInterrupted() + " " + gateRunner2.isAlive());
 
         gateRunner1.interrupt();
         gateRunner2.interrupt();
 
+//        System.out.println(gateRunner1 + " " + gateRunner1.isInterrupted() + " " + gateRunner1.isAlive());
+//        System.out.println(gateRunner2 + " " + gateRunner2.isInterrupted() + " " + gateRunner2.isAlive());
+
         Thread statisticsForGate1 = printStatisticForGate(1);
         statisticsForGate1.join();
-        printStatisticForGate(2);
+        Thread statisticsForGate2 = printStatisticForGate(2);
+        statisticsForGate2.join();
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
 
 
         // System.out.println(archive.getArchivedPasses().toString());
