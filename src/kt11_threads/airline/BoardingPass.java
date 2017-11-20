@@ -1,13 +1,13 @@
 package kt11_threads.airline;
 
 public interface BoardingPass {
-    public String getPassengerFirstName();
+    String getPassengerFirstName();
 
-    public String getPassengerLastName();
+    String getPassengerLastName();
 
-    public long getTicketCode();
+    long getTicketCode();
 
-    public void setProcessedByGateID(int gateID);
+    void setProcessedByGateID(int gateID);
 
-    public int getGateID();
+    int getGateID();
 }

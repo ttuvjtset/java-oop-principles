@@ -1,8 +1,8 @@
 package kt11_threads.securitygate;
 
 import kt11_threads.airline.BoardingPass;
-import kt11_threads.storage.TicketArchive;
 import kt11_threads.storage.TicketStorage;
+import kt11_threads.storage.TicketsCollectorForArchive;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -12,16 +12,16 @@ public class SecurityGate implements SecurityGateDatabase {
 
     private TicketStorage storage;
 
-    private TicketArchive archive;
+    private TicketsCollectorForArchive archive;
     private int gateID;
 
-    public SecurityGate(TicketStorage storage, TicketArchive archive, int gateID) {
+    public SecurityGate(TicketStorage storage, TicketsCollectorForArchive archive, int gateID) {
         this.storage = storage;
         this.archive = archive;
         this.gateID = gateID;
     }
 
-    public int getGateID() {
+    private int getGateID() {
         return gateID;
     }
 
@@ -42,13 +42,13 @@ public class SecurityGate implements SecurityGateDatabase {
     private void fetchTickets() throws InterruptedException {
         while (!Thread.interrupted()) {
             Optional<BoardingPass> ticket = storage.getTicket();
-//            ticket.ifPresent(this::processTicket);
+
             if (ticket.isPresent()) {
                 processTicket(ticket.get());
                 ticket.get().setProcessedByGateID(gateID);
                 archive.addTicket(ticket.get());
             }
-            Thread.sleep(50);
+            //Thread.sleep(50);
 
         }
     }

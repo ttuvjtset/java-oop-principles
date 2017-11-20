@@ -5,18 +5,17 @@ public class NordicaBoardingPass implements BoardingPass {
     private String firstName;
     private String lastName;
     private long ticketCode;
-
-    public int getGateID() {
-        return gateID;
-    }
-
     private int gateID;
 
-    public NordicaBoardingPass(String firstName, String lastName,
-                               long ticketCode) {
+    NordicaBoardingPass(String firstName, String lastName,
+                        long ticketCode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.ticketCode = ticketCode;
+    }
+
+    public int getGateID() {
+        return gateID;
     }
 
     @Override

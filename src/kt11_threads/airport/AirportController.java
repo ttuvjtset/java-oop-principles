@@ -6,11 +6,13 @@ import kt11_threads.securitygate.SecurityGate;
 import kt11_threads.securitygate.SecurityGateBackup;
 import kt11_threads.securitygate.SecurityGateDatabase;
 import kt11_threads.securitygate.SecurityGateStatistics;
-import kt11_threads.storage.TicketArchive;
+import kt11_threads.storage.TicketOfflineArchive;
 import kt11_threads.storage.TicketStorage;
+import kt11_threads.storage.TicketsCollectorForArchive;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /*
  * we refactored controller to 
@@ -21,14 +23,17 @@ import java.util.List;
 public class AirportController {
 
     private TicketStorage storage;
-    private TicketArchive archive;
+    private TicketsCollectorForArchive ticketsCollectorForArchive;
+    private AtomicInteger atomicInteger;
 
-    public AirportController(TicketStorage storage, TicketArchive archive) {
+    public AirportController(TicketStorage storage) {
         this.storage = storage;
-        this.archive = archive;
+        this.atomicInteger = new AtomicInteger(0);
     }
 
     public void runAirport() throws InterruptedException {
+        Thread ticketCollector = startTicketsArchiveService();
+
         startNewTicketService();
         startNewTicketService();
 
@@ -40,18 +45,12 @@ public class AirportController {
         SecurityGateDatabase gateBackup = new SecurityGateBackup(gateRunners);
         Thread gateRunnerBackup = new Thread(gateBackup);
         gateRunnerBackup.start();
-        //gateRunnerBackup.wait();
 
         Thread.sleep(10_000);
 
-//        System.out.println(gateRunner1.isInterrupted() + " " + gateRunner1.isAlive());
-//        System.out.println(gateRunner2.isInterrupted() + " " + gateRunner2.isAlive());
-
         gateRunner1.interrupt();
         gateRunner2.interrupt();
-
-//        System.out.println(gateRunner1 + " " + gateRunner1.isInterrupted() + " " + gateRunner1.isAlive());
-//        System.out.println(gateRunner2 + " " + gateRunner2.isInterrupted() + " " + gateRunner2.isAlive());
+        ticketCollector.interrupt();
 
         Thread statisticsForGate1 = printStatisticForGate(1);
         statisticsForGate1.join();
@@ -59,28 +58,32 @@ public class AirportController {
         statisticsForGate2.join();
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
+    }
 
-
-        // System.out.println(archive.getArchivedPasses().toString());
-        // System.out.println(archive.getArchivedPasses().size());
+    private Thread startTicketsArchiveService() {
+        TicketOfflineArchive ticketOfflineArchive = new TicketOfflineArchive();
+        ticketsCollectorForArchive = new TicketsCollectorForArchive(ticketOfflineArchive);
+        Thread ticketCollector = new Thread(ticketsCollectorForArchive);
+        ticketCollector.start();
+        return ticketCollector;
     }
 
     private Thread printStatisticForGate(int gateID) {
-        SecurityGateStatistics securityGateStatistics = new SecurityGateStatistics(archive, gateID);
+        SecurityGateStatistics securityGateStatistics = new SecurityGateStatistics(ticketsCollectorForArchive, gateID);
         Thread securityGateStatisticsThread = new Thread(securityGateStatistics);
         securityGateStatisticsThread.start();
         return securityGateStatisticsThread;
     }
 
     private Thread startAndReturnNewGate(int gateID) {
-        SecurityGateDatabase gate = new SecurityGate(storage, archive, gateID);
+        SecurityGateDatabase gate = new SecurityGate(storage, ticketsCollectorForArchive, gateID);
         Thread gateRunner = new Thread(gate);
         gateRunner.start();
         return gateRunner;
     }
 
     private void startNewTicketService() {
-        AirlineTicketService ticketService = new NordicaTicketService(storage);
+        AirlineTicketService ticketService = new NordicaTicketService(storage, atomicInteger);
         Thread nordicaRunner = new Thread(ticketService);
         nordicaRunner.start();
     }

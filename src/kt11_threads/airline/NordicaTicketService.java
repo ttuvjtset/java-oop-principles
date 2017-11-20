@@ -2,23 +2,28 @@ package kt11_threads.airline;
 
 import kt11_threads.storage.TicketStorage;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class NordicaTicketService implements AirlineTicketService {
 
     private static final int MAX_TICKETS = 370;
-    private static int id = 1;
-    private TicketStorage storage;
 
-    public NordicaTicketService(TicketStorage storage) {
+    private TicketStorage storage;
+    private AtomicInteger atomicInteger;
+
+    public NordicaTicketService(TicketStorage storage, AtomicInteger atomicInteger) {
         this.storage = storage;
+        this.atomicInteger = atomicInteger;
     }
 
-    private synchronized static int getUniqueID() {
-        return id++;
+    private int getUniqueID() {
+        return atomicInteger.incrementAndGet();
     }
 
     private void generateTickets() {
         for (int i = 1; i <= MAX_TICKETS; i++) {
-            BoardingPass ticket = new NordicaBoardingPass("John " + Thread.currentThread().getId(), "Fu", getUniqueID());
+            BoardingPass ticket = new NordicaBoardingPass("John " + Thread.currentThread().getId(),
+                    "Fu", getUniqueID());
             storage.addTicket(ticket);
         }
     }
