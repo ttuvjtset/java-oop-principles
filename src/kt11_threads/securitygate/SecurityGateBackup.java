@@ -15,7 +15,7 @@ public class SecurityGateBackup implements SecurityGateDatabase {
     public void run() {
         try {
             Thread.sleep(20_000);
-            System.out.println("Backup Gate 20 sec exceeded, checking if the gates still work.");
+            System.out.println("\nBackup Gate 20 sec exceeded, checking if the gates still work.");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

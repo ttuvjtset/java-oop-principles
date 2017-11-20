@@ -40,11 +40,7 @@ public class AirportController {
         Thread gateRunner1 = startAndReturnNewGate(1);
         Thread gateRunner2 = startAndReturnNewGate(2);
 
-        List<Thread> gateRunners = Arrays.asList(gateRunner1, gateRunner2);
-
-        SecurityGateDatabase gateBackup = new SecurityGateBackup(gateRunners);
-        Thread gateRunnerBackup = new Thread(gateBackup);
-        gateRunnerBackup.start();
+        startBackupGate(gateRunner1, gateRunner2);
 
         Thread.sleep(10_000);
 
@@ -52,12 +48,16 @@ public class AirportController {
         gateRunner2.interrupt();
         ticketCollector.interrupt();
 
-        Thread statisticsForGate1 = printStatisticForGate(1);
-        statisticsForGate1.join();
-        Thread statisticsForGate2 = printStatisticForGate(2);
-        statisticsForGate2.join();
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        printStatisticForGate(1);
+        printStatisticForGate(2);
+    }
 
+    private void startBackupGate(Thread gateRunner1, Thread gateRunner2) {
+        List<Thread> gateRunners = Arrays.asList(gateRunner1, gateRunner2);
+
+        SecurityGateDatabase gateBackup = new SecurityGateBackup(gateRunners);
+        Thread gateRunnerBackup = new Thread(gateBackup);
+        gateRunnerBackup.start();
     }
 
     private Thread startTicketsArchiveService() {
@@ -68,11 +68,10 @@ public class AirportController {
         return ticketCollector;
     }
 
-    private Thread printStatisticForGate(int gateID) {
+    private void printStatisticForGate(int gateID) {
         SecurityGateStatistics securityGateStatistics = new SecurityGateStatistics(ticketsCollectorForArchive, gateID);
         Thread securityGateStatisticsThread = new Thread(securityGateStatistics);
         securityGateStatisticsThread.start();
-        return securityGateStatisticsThread;
     }
 
     private Thread startAndReturnNewGate(int gateID) {
