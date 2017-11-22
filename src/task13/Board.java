@@ -27,11 +27,13 @@ class Board {
         return messages.size();
     }
 
-    void consume() throws InterruptedException {
+    Message consume() throws InterruptedException {
         synchronized (lock) {
             while (messages.isEmpty()) {
                 lock.wait();
             }
+            return getLastMessage();
+            //message - id, id on suurem -> tagastatakse
         }
     }
 }
