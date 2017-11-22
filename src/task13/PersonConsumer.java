@@ -1,21 +1,37 @@
 package task13;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class PersonConsumer extends Person {
-    PersonConsumer(String name, Board board) {
-        super(name, board);
+    public Message getLastLikedMessage() {
+        return lastLikedMessage;
+    }
+
+    Message lastLikedMessage = new Message("", null);
+
+    PersonConsumer(String name, Board board, AtomicInteger atomicInteger) {
+        super(name, board, atomicInteger);
     }
 
     @Override
     public void run() {
-        System.out.println("Consumer waiting for messages...");
+        while (!Thread.interrupted()) {
+            System.out.println("Consumer waiting for messages...");
 
-        if (board.getLastMessage().isPresent()) {
             try {
-                board.consume();
+                Message message = board.consume(lastLikedMessage);
+
+                message.addLike();
+                this.lastLikedMessage = message;
+
+                System.out.println("Like set to message content: " + message.getMessageContent()
+                        + " Likes count:" + message.getLikesCount() + ""
+                        + " Author name: " + message.getAuthorsName());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            board.getLastMessage().get().addLike();
+
+            //System.out.println("Liked");
         }
     }
 }

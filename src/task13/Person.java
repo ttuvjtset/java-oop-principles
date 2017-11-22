@@ -1,14 +1,17 @@
 package task13;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 abstract class Person implements Runnable {
+    AtomicInteger atomicInteger;
     Board board;
-    private Object lock1 = new Object();
-    private Object lock2 = new Object();
+
     private String name;
 
-    Person(String name, Board board) {
+    Person(String name, Board board, AtomicInteger atomicInteger) {
         this.name = name;
         this.board = board;
+        this.atomicInteger = atomicInteger;
     }
 
     String getName() {

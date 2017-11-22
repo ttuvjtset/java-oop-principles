@@ -1,23 +1,29 @@
 package task13;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class PersonProducer extends Person {
-    PersonProducer(String name, Board board) {
-        super(name, board);
+    PersonProducer(String name, Board board, AtomicInteger atomicInteger) {
+        super(name, board, atomicInteger);
     }
 
     @Override
     public void run() {
+        while(!Thread.interrupted()){
+            try {
+                Thread.sleep(200);
 
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+                Message message = new Message("hello" + atomicInteger.incrementAndGet(), this);
+
+                super.board.addMessage(message);
+                System.out.println("Message: " + message.getMessageContent() + " written by: " + message.getAuthorsName());
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
 
-        Message message = new Message("hello", this);
-
-        super.board.addMessage(message);
-        System.out.println(message.getAuthorsName() + " written.");
 
     }
 }
