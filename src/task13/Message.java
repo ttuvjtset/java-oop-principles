@@ -19,7 +19,7 @@ class Message {
         return messageContent;
     }
 
-    int getLikesCount() {
+    private int getLikesCount() {
         return likesCount.get();
     }
 

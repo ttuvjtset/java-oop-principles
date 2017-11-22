@@ -16,10 +16,12 @@ class PersonProducer extends Person {
                 Message message = new Message("hello" + atomicInteger.incrementAndGet(), this);
 
                 super.board.addMessage(message);
-                System.out.println("Message: " + message.getMessageContent() + " written by: " + message.getAuthorsName());
+                System.out.println("Message: " + message.getMessageContent()
+                        + " written by: " + message.getAuthorsName());
 
             } catch (InterruptedException e) {
                 //e.printStackTrace();
+                System.out.println("Producer thread interrupted!");
                 break;
             }
         }

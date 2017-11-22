@@ -27,6 +27,7 @@ class PersonConsumer extends Person {
 //                        + " | Author name: " + message.getAuthorsName());
             } catch (InterruptedException e) {
                 //e.printStackTrace();
+                System.out.println("Consumer thread interrupted!");
                 break;
             }
         }

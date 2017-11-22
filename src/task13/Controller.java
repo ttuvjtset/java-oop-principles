@@ -28,6 +28,7 @@ public class Controller {
         String name = "Name";
 
         ExecutorService executorService = Executors.newFixedThreadPool(10);
+
         for (int i = 0; i < 3; i++) {
             Runnable r = new PersonConsumer(name + "consumer" + i, board, atomicInteger);
             executorService.execute(r);
