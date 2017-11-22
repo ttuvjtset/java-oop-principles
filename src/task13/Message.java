@@ -1,17 +1,18 @@
 package task13;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.atomic.AtomicInteger;
 
 class Message {
-    private String messageContent;
-    private Person author;
-    private int likesCount;
-    private LocalDateTime localDateTimeCreated;
+    private final String messageContent;
+    private final Person author;
+    private AtomicInteger likesCount;
 
     Message(String messageContent, Person author) {
         this.messageContent = messageContent;
         this.author = author;
-        this.localDateTimeCreated = LocalDateTime.now();
+        this.likesCount = new AtomicInteger(0);
+        LocalDateTime localDateTimeCreated = LocalDateTime.now();
     }
 
     String getMessageContent() {
@@ -19,11 +20,12 @@ class Message {
     }
 
     int getLikesCount() {
-        return likesCount;
+        return likesCount.get();
     }
 
-    void addLike() {
-        likesCount++;
+    synchronized void addLike() {
+        likesCount.incrementAndGet();
+        System.out.println("Liked " + messageContent + " | by: " + getAuthorsName() + " | Total count: " + getLikesCount());
     }
 
     String getAuthorsName() {

@@ -2,7 +2,7 @@ package task13;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class PersonProducer extends Person {
+class PersonProducer extends Person {
     PersonProducer(String name, Board board, AtomicInteger atomicInteger) {
         super(name, board, atomicInteger);
     }

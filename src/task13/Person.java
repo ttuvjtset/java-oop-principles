@@ -3,10 +3,10 @@ package task13;
 import java.util.concurrent.atomic.AtomicInteger;
 
 abstract class Person implements Runnable {
-    AtomicInteger atomicInteger;
-    Board board;
+    final AtomicInteger atomicInteger;
+    final Board board;
 
-    private String name;
+    private final String name;
 
     Person(String name, Board board, AtomicInteger atomicInteger) {
         this.name = name;

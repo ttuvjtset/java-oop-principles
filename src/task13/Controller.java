@@ -29,12 +29,12 @@ public class Controller {
 
         ExecutorService executorService = Executors.newFixedThreadPool(10);
         for (int i = 0; i < 3; i++) {
-            Runnable r = new PersonConsumer(name + i, board, atomicInteger);
+            Runnable r = new PersonConsumer(name + "consumer" + i, board, atomicInteger);
             executorService.execute(r);
         }
 
         for (int i = 0; i < 7; i++) {
-            Runnable r = new PersonProducer(name + i, board, atomicInteger);
+            Runnable r = new PersonProducer(name + "producer" + i, board, atomicInteger);
             executorService.execute(r);
         }
 
