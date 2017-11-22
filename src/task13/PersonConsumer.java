@@ -3,14 +3,11 @@ package task13;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PersonConsumer extends Person {
-    public Message getLastLikedMessage() {
-        return lastLikedMessage;
-    }
-
-    Message lastLikedMessage = new Message("", null);
+    private Message lastLikedMessage;
 
     PersonConsumer(String name, Board board, AtomicInteger atomicInteger) {
         super(name, board, atomicInteger);
+        lastLikedMessage = new Message("", null);
     }
 
     @Override
@@ -31,8 +28,6 @@ public class PersonConsumer extends Person {
                 //e.printStackTrace();
                 break;
             }
-
-            //System.out.println("Liked");
         }
     }
 }

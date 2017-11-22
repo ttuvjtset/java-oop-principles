@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Controller {
-    static AtomicInteger atomicInteger;
+    private static AtomicInteger atomicInteger;
 
     public static void main(String[] args) throws InterruptedException {
         atomicInteger = new AtomicInteger(0);
@@ -43,21 +43,16 @@ public class Controller {
         //Thread.sleep(2000);
         executorService.shutdownNow();
 
-
-        //startPersonConsumer(board, "NameConsumer2");
-
         // System.out.println(board.getLastMessage().getLikesCount());
     }
 
     private static Thread startPersonConsumer(Board board, String name) {
         Person person1 = new PersonConsumer(name, board, atomicInteger);
-        Thread person1Thread = new Thread(person1);
-        return person1Thread;
+        return new Thread(person1);
     }
 
     private static Thread startPersonProducer(Board board, String name) {
         Person person1 = new PersonProducer(name, board, atomicInteger);
-        Thread person1Thread = new Thread(person1);
-        return person1Thread;
+        return new Thread(person1);
     }
 }

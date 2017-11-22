@@ -9,7 +9,7 @@ public class PersonProducer extends Person {
 
     @Override
     public void run() {
-        while(!Thread.interrupted()){
+        while (!Thread.interrupted()) {
             try {
                 Thread.sleep(200);
 
@@ -22,9 +22,6 @@ public class PersonProducer extends Person {
                 //e.printStackTrace();
                 break;
             }
-
         }
-
-
     }
 }
