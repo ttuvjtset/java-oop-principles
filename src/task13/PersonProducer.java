@@ -19,7 +19,8 @@ public class PersonProducer extends Person {
                 System.out.println("Message: " + message.getMessageContent() + " written by: " + message.getAuthorsName());
 
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                break;
             }
 
         }

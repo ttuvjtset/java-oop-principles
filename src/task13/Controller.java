@@ -38,9 +38,9 @@ public class Controller {
             executorService.execute(r);
         }
 
-        //executorService.awaitTermination(2, TimeUnit.SECONDS);
+        executorService.awaitTermination(2, TimeUnit.SECONDS);
 
-        Thread.sleep(2000);
+        //Thread.sleep(2000);
         executorService.shutdownNow();
 
 

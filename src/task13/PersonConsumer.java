@@ -28,7 +28,8 @@ public class PersonConsumer extends Person {
                         + " Likes count:" + message.getLikesCount() + ""
                         + " Author name: " + message.getAuthorsName());
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                break;
             }
 
             //System.out.println("Liked");
