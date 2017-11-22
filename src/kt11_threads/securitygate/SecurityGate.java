@@ -48,7 +48,7 @@ public class SecurityGate implements SecurityGateDatabase {
                 ticket.get().setProcessedByGateID(gateID);
                 archive.addTicket(ticket.get());
             }
-            //Thread.sleep(50);
+            Thread.sleep(50);
 
         }
     }
