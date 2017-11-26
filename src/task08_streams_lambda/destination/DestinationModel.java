@@ -1,4 +1,4 @@
-package task08_streams.destination;
+package task08_streams_lambda.destination;
 
 import java.util.function.DoubleFunction;
 

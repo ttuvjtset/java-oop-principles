@@ -1,4 +1,4 @@
-package task08_streams.lambda;
+package task08_streams_lambda.lambda;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package task13;
+package task13_consumer_producer;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -21,7 +21,7 @@ class PersonProducer extends Person {
 
             } catch (InterruptedException e) {
                 //e.printStackTrace();
-                System.out.println("Producer thread interrupted!");
+                System.out.println("OrdersCreator thread interrupted!");
                 break;
             }
         }

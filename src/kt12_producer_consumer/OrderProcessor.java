@@ -30,7 +30,9 @@ public class OrderProcessor implements Runnable {
                 }));
 
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                System.out.println("Order " + threadName + " terminated");
+                break;
             }
         }
 

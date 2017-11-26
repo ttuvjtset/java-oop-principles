@@ -1,4 +1,4 @@
-package task13;
+package task13_consumer_producer;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -13,7 +13,7 @@ class PersonConsumer extends Person {
     @Override
     public void run() {
         while (!Thread.interrupted()) {
-            System.out.println("Consumer waiting for messages...");
+            System.out.println("OrderProcessor waiting for messages...");
 
             try {
                 //Thread.sleep(30);
@@ -27,7 +27,7 @@ class PersonConsumer extends Person {
 //                        + " | Author name: " + message.getAuthorsName());
             } catch (InterruptedException e) {
                 //e.printStackTrace();
-                System.out.println("Consumer thread interrupted!");
+                System.out.println("OrderProcessor thread interrupted!");
                 break;
             }
         }
