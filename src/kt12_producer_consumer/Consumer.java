@@ -1,14 +1,13 @@
 package kt12_producer_consumer;
 
 
-import java.util.concurrent.BlockingQueue;
-
 public class Consumer implements Runnable {
-    private BlockingQueue<Order> queue;
+    //private BlockingQueue<Order> queue;
+    private Orders orders;
     private String threadName;
 
-    public Consumer(BlockingQueue<Order> queue, String threadName) {
-        this.queue = queue;
+    public Consumer(Orders orders, String threadName) {
+        this.orders = orders;
         this.threadName = threadName;
     }
 
@@ -16,7 +15,7 @@ public class Consumer implements Runnable {
     public void run() {
         while(!Thread.interrupted()) {
             try {
-                Order order = queue.take();
+                Order order = orders.getOrder();
                 System.out.println(threadName + "  " + order);
             } catch (InterruptedException e) {
                 e.printStackTrace();

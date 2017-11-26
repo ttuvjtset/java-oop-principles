@@ -1,26 +1,39 @@
 package kt12_producer_consumer;
 
 
-import java.util.concurrent.BlockingQueue;
-
 public class Producer implements Runnable {
-    private BlockingQueue<Order> queue;
+    //private BlockingQueue<Order> queue;
+    private Orders orders;
     private int clientNumber = 1;
 
-    Producer(BlockingQueue<Order> queue) {
-        this.queue = queue;
+    Producer(Orders orders) {
+        this.orders = orders;
     }
 
     @Override
     public void run() {
-        createPrivateOrders();
-        createBusinessShortOrders();
-        createBusinessLongOrders();
+        try {
+            createPrivateOrders();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            createBusinessShortOrders();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            createBusinessLongOrders();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void createBusinessLongOrders() {
+    private void createBusinessLongOrders() throws InterruptedException {
         for (int i = 0; i < 250; i++) {
-            queue.add(new OrderBusinessClient("Name", "Address", getClientNumberAndIterate(), 7, 1, 222));
+            orders.addOrder(new OrderBusinessClient("Name", "Address", getClientNumberAndIterate(), 7, 1, 222));
             try {
                 Thread.sleep(2);
             } catch (InterruptedException e) {
@@ -29,9 +42,9 @@ public class Producer implements Runnable {
         }
     }
 
-    private void createBusinessShortOrders() {
+    private void createBusinessShortOrders() throws InterruptedException {
         for (int i = 0; i < 450; i++) {
-            queue.add(new OrderBusinessClient("Name", "Address", getClientNumberAndIterate(), 5, 1, 222));
+            orders.addOrder(new OrderBusinessClient("Name", "Address", getClientNumberAndIterate(), 5, 1, 222));
             try {
                 Thread.sleep(2);
             } catch (InterruptedException e) {
@@ -40,9 +53,9 @@ public class Producer implements Runnable {
         }
     }
 
-    private void createPrivateOrders() {
+    private void createPrivateOrders() throws InterruptedException {
         for (int i = 0; i < 700; i++) {
-            queue.add(new OrderPrivateClient("Name", "Address", getClientNumberAndIterate(), 4, 1));
+            orders.addOrder(new OrderPrivateClient("Name", "Address", getClientNumberAndIterate(), 4, 1));
             try {
                 Thread.sleep(2);
             } catch (InterruptedException e) {

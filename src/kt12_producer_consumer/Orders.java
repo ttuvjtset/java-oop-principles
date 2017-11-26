@@ -12,7 +12,7 @@ public class Orders {
         notifyAll();
     }
 
-    public synchronized Order getOrder(Order order) throws InterruptedException {
+    public synchronized Order getOrder() throws InterruptedException {
         while (orders.isEmpty()) {
             wait();
         }
