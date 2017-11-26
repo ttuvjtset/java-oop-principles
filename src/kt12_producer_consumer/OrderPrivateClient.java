@@ -1,6 +1,8 @@
 package kt12_producer_consumer;
 
 
+import java.util.function.DoubleFunction;
+
 public class OrderPrivateClient implements Order {
     private static final int STANDARD_UNIT_AMOUNT_FOR_PRIVATE_CLIENTS_PER_WEEK = 6;
     private String name;
@@ -9,7 +11,7 @@ public class OrderPrivateClient implements Order {
     private int orderLengthInMonths;
     private int unitsOrdered;
 
-    public OrderPrivateClient(String name, String address, int clientNumber, int orderLengthInMonths, int unitsOrdered) {
+    OrderPrivateClient(String name, String address, int clientNumber, int orderLengthInMonths, int unitsOrdered) {
         this.name = name;
         this.address = address;
         this.clientNumber = clientNumber;
@@ -41,15 +43,15 @@ public class OrderPrivateClient implements Order {
         return getUnitsOrdered() * STANDARD_UNIT_AMOUNT_FOR_PRIVATE_CLIENTS_PER_WEEK;
     }
 
-    public int calculatePrice() {
-        return 0;
+    public double getPrice(DoubleFunction<Double> tempHandler) {
+        return tempHandler.apply(getUnitsPerWeek());
     }
 
     @Override
     public String toString() {
         return "OrderPrivateClient{" +
-                  name + '\'' +
-                  address + '\'' +
+                name + '\'' +
+                address + '\'' +
                 ", clientNumber=" + clientNumber +
                 ", orderLengthInMonths=" + orderLengthInMonths +
                 ", unitsOrdered=" + unitsOrdered +

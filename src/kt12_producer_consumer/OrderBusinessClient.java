@@ -4,8 +4,9 @@ package kt12_producer_consumer;
 public class OrderBusinessClient extends OrderPrivateClient {
     private static final int STANDARD_UNIT_AMOUNT_FOR_BUSINESS_CLIENTS_PER_WEEK = 5;
     private int registerCode;
-    public OrderBusinessClient(String name, String address, int clientNumber, int orderLengthInMonths, int unitsOrdered,
-                               int registerCode) {
+
+    OrderBusinessClient(String name, String address, int clientNumber, int orderLengthInMonths, int unitsOrdered,
+                        int registerCode) {
         super(name, address, clientNumber, orderLengthInMonths, unitsOrdered);
         this.registerCode = registerCode;
     }

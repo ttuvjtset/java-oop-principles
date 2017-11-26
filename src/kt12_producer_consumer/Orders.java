@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Orders {
+class Orders {
     private List<Order> orders = new ArrayList<>();
 
-    public synchronized void addOrder(Order order) throws InterruptedException {
+    synchronized void addOrder(Order order) throws InterruptedException {
         orders.add(order);
         notifyAll();
     }
 
-    public synchronized Order getOrder() throws InterruptedException {
+    synchronized Order getOrder() throws InterruptedException {
         while (orders.isEmpty()) {
             wait();
         }

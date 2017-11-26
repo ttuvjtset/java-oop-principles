@@ -1,12 +1,12 @@
 package kt12_producer_consumer;
 
 
-public class Producer implements Runnable {
+public class OrdersCreator implements Runnable {
     //private BlockingQueue<Order> queue;
     private Orders orders;
     private int clientNumber = 1;
 
-    Producer(Orders orders) {
+    OrdersCreator(Orders orders) {
         this.orders = orders;
     }
 
