@@ -2,7 +2,12 @@ package kt12_producer_consumer;
 
 
 public class OrdersCreator implements Runnable {
+    private static final int SLEEP_DURATION = 2;
+    private static final int BUSINESS_CLIENTS_WITH_BIG_ORDERS = 250;
+    private static final int BUSINESS_CLIENTS_WITH_SHORT_ORDERS = 450;
+
     //private BlockingQueue<Order> queue;
+
     private Orders orders;
     private int clientNumber = 1;
 
@@ -25,17 +30,18 @@ public class OrdersCreator implements Runnable {
         }
 
         try {
-            createBusinessLongOrders();
+            createBusinessBigOrders();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    private void createBusinessLongOrders() throws InterruptedException {
-        for (int i = 0; i < 250; i++) {
-            orders.addOrder(new OrderBusinessClient("Name", "Address", getClientNumberAndIterate(), 7, 1, 222));
+    private void createBusinessBigOrders() throws InterruptedException {
+        for (int i = 0; i < BUSINESS_CLIENTS_WITH_BIG_ORDERS; i++) {
+            orders.addOrder(new OrderBusinessClient("Name", "Address", getClientNumberAndIterate(),
+                    7, 1, 222));
             try {
-                Thread.sleep(2);
+                Thread.sleep(SLEEP_DURATION);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -43,10 +49,11 @@ public class OrdersCreator implements Runnable {
     }
 
     private void createBusinessShortOrders() throws InterruptedException {
-        for (int i = 0; i < 450; i++) {
-            orders.addOrder(new OrderBusinessClient("Name", "Address", getClientNumberAndIterate(), 5, 1, 222));
+        for (int i = 0; i < BUSINESS_CLIENTS_WITH_SHORT_ORDERS; i++) {
+            orders.addOrder(new OrderBusinessClient("Name", "Address", getClientNumberAndIterate(),
+                    5, 1, 222));
             try {
-                Thread.sleep(2);
+                Thread.sleep(SLEEP_DURATION);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -55,9 +62,10 @@ public class OrdersCreator implements Runnable {
 
     private void createPrivateOrders() throws InterruptedException {
         for (int i = 0; i < 700; i++) {
-            orders.addOrder(new OrderPrivateClient("Name", "Address", getClientNumberAndIterate(), 4, 1));
+            orders.addOrder(new OrderPrivateClient("Name", "Address", getClientNumberAndIterate(),
+                    4, 1));
             try {
-                Thread.sleep(2);
+                Thread.sleep(SLEEP_DURATION);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -19,6 +19,7 @@ public class OrderProcessor implements Runnable {
     @Override
     public void run() {
         while (!Thread.interrupted()) {
+
             try {
                 Order order = orders.getOrder();
                 System.out.println("Thread: " + threadName + " | " + order + " | Price: "
@@ -30,12 +31,10 @@ public class OrderProcessor implements Runnable {
                 }));
 
             } catch (InterruptedException e) {
-                //e.printStackTrace();
                 System.out.println("Order " + threadName + " terminated");
                 break;
             }
         }
-
     }
 
     private boolean isEligibleForDiscount(Order order) {
