@@ -17,7 +17,7 @@ public class OrdersCreator implements Runnable {
 
     @Override
     public void run() {
-        try {
+/*        try {
             createPrivateOrders();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -33,7 +33,7 @@ public class OrdersCreator implements Runnable {
             createBusinessBigOrders();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private void createBusinessBigOrders() throws InterruptedException {
