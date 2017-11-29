@@ -8,6 +8,8 @@ import java.util.Optional;
 class Tickets {
     private List<Ticket> tickets = new ArrayList<>();
 
+    public static List<Carousel> stopped = new ArrayList<>();
+
     synchronized void addTicket(Ticket ticket) throws InterruptedException {
 //        tickets.add(ticket);
 //        notifyAll();

@@ -1,6 +1,10 @@
 package task13;
 
-public class Carousel implements Runnable {
+import jdk.nashorn.internal.codegen.CompilerConstants;
+
+import java.util.concurrent.Callable;
+
+public class Carousel implements Callable<Integer> {
     private Tickets tickets;
     private int count = 0;
 
@@ -8,9 +12,10 @@ public class Carousel implements Runnable {
         this.tickets = tickets;
     }
 
+
     @Override
-    public void run() {
-        while (count < 5000) {
+    public Integer call() throws Exception {
+        while (Tickets.stopped.size() != 3) {
             try {
                 System.out.println(tickets.popTicket());
                 count++;
@@ -18,5 +23,7 @@ public class Carousel implements Runnable {
                 e.printStackTrace();
             }
         }
+        Tickets.stopped.add(this);
+        return count;
     }
 }
