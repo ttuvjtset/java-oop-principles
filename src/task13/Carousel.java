@@ -1,7 +1,5 @@
 package task13;
 
-import jdk.nashorn.internal.codegen.CompilerConstants;
-
 import java.util.concurrent.Callable;
 
 public class Carousel implements Callable<Integer> {

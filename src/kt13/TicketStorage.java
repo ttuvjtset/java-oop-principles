@@ -1,30 +1,22 @@
-package task13;
-
+package kt13;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-class Tickets {
-    public static List<Carousel> stopped = new ArrayList<>();
-    private List<Ticket> tickets = new ArrayList<>();
+public class TicketStorage {
 
-    synchronized void addTicket(Ticket ticket) throws InterruptedException {
-//        tickets.add(ticket);
-//        notifyAll();
+    static int runningCarousels = -1;
+    private final List<Ticket> tickets = new ArrayList<>();
 
+    public void addTicket(Ticket ticket) {
         synchronized (tickets) {
             tickets.add(ticket);
             tickets.notify();
         }
     }
 
-    synchronized Ticket popTicket() throws InterruptedException {
-//        while (tickets.isEmpty()) {
-//            wait();
-//        }
-//        return tickets.remove(0);
-
+    Ticket popTicket() throws InterruptedException {
         synchronized (tickets) {
             Optional<Ticket> ticket = Optional.empty();
             while (!ticket.isPresent()) {
@@ -37,4 +29,20 @@ class Tickets {
             return ticket.get();
         }
     }
+
+    synchronized void increment() {
+        System.out.println("incrementing");
+        if (runningCarousels < 0) {
+            runningCarousels = 1;
+        } else {
+            runningCarousels++;
+        }
+    }
+
+    synchronized void decrement() {
+
+        System.out.println("decrementing");
+        runningCarousels--;
+    }
+
 }
