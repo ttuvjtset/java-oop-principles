@@ -6,19 +6,23 @@ import java.util.concurrent.Callable;
 
 public class Carousel implements Callable<Integer> {
 
-    private String name;
     private TicketStorage ticketStorage;
+    private String name;
+    private TotalWeight totalWeight;
     private int rideCount;
     private ArrayList<Ticket> waitingQueue = new ArrayList<>();
     private ArrayList<Ticket> usedTickets = new ArrayList<>();
     private double calculatedAverageWeight;
+    private Flag flag;
 
-    Carousel(TicketStorage ticketStorage, String name) {
+    Carousel(TicketStorage ticketStorage, String name, TotalWeight totalWeight, Flag flag) {
         this.ticketStorage = ticketStorage;
         this.name = name;
+        this.totalWeight = totalWeight;
         this.ticketStorage.increment();
         this.rideCount = 0;
         this.calculatedAverageWeight = 0;
+        this.flag = flag;
     }
 
     @Override
@@ -51,17 +55,22 @@ public class Carousel implements Callable<Integer> {
     }
 
     private void ridePeople(int rideLimit) throws InterruptedException {
-        while (rideCount < rideLimit) {
+        while (rideCount < rideLimit && flag.isRideAllowed()) {
             Ticket ticket = ticketStorage.popTicket();
             waitingQueue.add(ticket);
 
             if (waitingQueue.size() == 10) {
+                int sumWeight = waitingQueue.stream().mapToInt(Ticket::getPersonWeight).sum();
+
+                totalWeight.registerWeight(sumWeight);
+
                 for (Ticket queueTicket : waitingQueue) {
                     rideCount++;
                     usedTickets.add(ticket);
                     System.out.println(name + " is ready for ticket number " + queueTicket.getTicketNumber());
                 }
                 Thread.sleep(67);
+                totalWeight.removeWeight(sumWeight);
                 waitingQueue.clear();
             }
         }

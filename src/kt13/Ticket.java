@@ -19,7 +19,7 @@ public class Ticket {
         return ticketNumber;
     }
 
-    public int getPersonWeight() {
+    int getPersonWeight() {
         return personWeight;
     }
 }

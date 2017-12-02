@@ -12,7 +12,7 @@ public class TicketStorage {
     public void addTicket(Ticket ticket) {
         synchronized (tickets) {
             tickets.add(ticket);
-            tickets.notify();
+            tickets.notifyAll();
         }
     }
 
