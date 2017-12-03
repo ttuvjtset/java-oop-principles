@@ -1,4 +1,4 @@
-package kt13;
+package _martin.prax13;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,17 +6,17 @@ import java.util.Optional;
 
 public class TicketStorage {
 
-    static int runningCarousels = -1;
+    public static int runningCarousels = -1;
     private final List<Ticket> tickets = new ArrayList<>();
 
     public void addTicket(Ticket ticket) {
         synchronized (tickets) {
             tickets.add(ticket);
-            tickets.notifyAll();
+            tickets.notify();
         }
     }
 
-    Ticket popTicket() throws InterruptedException {
+    public Ticket popTicket() throws InterruptedException {
         synchronized (tickets) {
             Optional<Ticket> ticket = Optional.empty();
             while (!ticket.isPresent()) {
@@ -30,8 +30,7 @@ public class TicketStorage {
         }
     }
 
-    synchronized void increment() {
-        System.out.println("incrementing");
+    public synchronized void increment() {
         if (runningCarousels < 0) {
             runningCarousels = 1;
         } else {
@@ -39,9 +38,7 @@ public class TicketStorage {
         }
     }
 
-    synchronized void decrement() {
-
-        System.out.println("decrementing");
+    public synchronized void decrement() {
         runningCarousels--;
     }
 

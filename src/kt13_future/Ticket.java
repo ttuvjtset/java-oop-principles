@@ -1,4 +1,4 @@
-package kt13;
+package kt13_future;
 
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;

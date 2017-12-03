@@ -1,4 +1,4 @@
-package kt13;
+package kt13_future;
 
 
 class TotalWeight {
