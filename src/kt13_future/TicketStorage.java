@@ -18,15 +18,15 @@ public class TicketStorage {
 
     Ticket popTicket() throws InterruptedException {
         synchronized (tickets) {
-            Optional<Ticket> ticket = Optional.empty();
-            while (!ticket.isPresent()) {
-                ticket = tickets.stream().findAny();
-                if (!ticket.isPresent()) {
+            Optional<Ticket> ticketInContainer = Optional.empty();
+            while (!ticketInContainer.isPresent()) {
+                ticketInContainer = tickets.stream().findAny();
+                if (!ticketInContainer.isPresent()) {
                     tickets.wait();
                 }
             }
-            tickets.remove(ticket.get());
-            return ticket.get();
+            tickets.remove(ticketInContainer.get());
+            return ticketInContainer.get();
         }
     }
 

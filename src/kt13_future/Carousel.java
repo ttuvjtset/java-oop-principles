@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.OptionalDouble;
 import java.util.concurrent.Callable;
 
-public class Carousel implements Callable<Integer> {
+public class Carousel implements Callable<Double> {
+
+    private static final int WEIGHT_THRESHOLD_FOR_EXTRA_DUTY = 65;
+    private static final int QUEUE_LIMIT = 10;
+    private static final int CAROUSEL_SPINNING_TIME = 67;
+    private static final int USUAL_AMOUNT_OF_PEOPLE = 500;
+    private static final int EXTRA_AMOUNT_OF_PEOPLE = 700;
 
     private TicketStorage ticketStorage;
     private String name;
@@ -13,9 +19,11 @@ public class Carousel implements Callable<Integer> {
     private ArrayList<Ticket> waitingQueue = new ArrayList<>();
     private ArrayList<Ticket> usedTickets = new ArrayList<>();
     private double calculatedAverageWeight;
-    private Flag flag;
+    private volatile Flag flag;
+    //private volatile boolean stop;
 
-    Carousel(TicketStorage ticketStorage, String name, TotalWeight totalWeight, Flag flag) {
+
+    Carousel(TicketStorage ticketStorage, String name, TotalWeight totalWeight, Flag flag, boolean stop) {
         this.ticketStorage = ticketStorage;
         this.name = name;
         this.totalWeight = totalWeight;
@@ -23,26 +31,31 @@ public class Carousel implements Callable<Integer> {
         this.rideCount = 0;
         this.calculatedAverageWeight = 0;
         this.flag = flag;
+        //this.stop = stop;
     }
 
     @Override
-    public Integer call() throws Exception {
+    public Double call() throws Exception {
 
-        ridePeople(500);
+        ridePeople(USUAL_AMOUNT_OF_PEOPLE);
 
-        calculateAverageWeight();
+        calculateAverageWeightAndPrintOut();
 
-        if (calculatedAverageWeight <= 65) {
-            ridePeople(700);
-            calculateAverageWeight();
+        if (isEligibleForExtraDuty()) {
+            ridePeople(EXTRA_AMOUNT_OF_PEOPLE);
+            calculateAverageWeightAndPrintOut();
         }
         System.out.println("Ride count for " + name + ": " + rideCount);
 
         ticketStorage.decrement();
-        return rideCount;
+        return calculatedAverageWeight;
     }
 
-    private void calculateAverageWeight() {
+    private boolean isEligibleForExtraDuty() {
+        return calculatedAverageWeight <= WEIGHT_THRESHOLD_FOR_EXTRA_DUTY;
+    }
+
+    private void calculateAverageWeightAndPrintOut() {
         OptionalDouble averageWeight = usedTickets.stream()
                 .mapToInt(Ticket::getPersonWeight)
                 .average();
@@ -59,7 +72,7 @@ public class Carousel implements Callable<Integer> {
             Ticket ticket = ticketStorage.popTicket();
             waitingQueue.add(ticket);
 
-            if (waitingQueue.size() == 10) {
+            if (waitingQueue.size() == QUEUE_LIMIT) {
                 int sumWeight = waitingQueue.stream().mapToInt(Ticket::getPersonWeight).sum();
 
                 totalWeight.registerWeight(sumWeight);
@@ -69,7 +82,7 @@ public class Carousel implements Callable<Integer> {
                     usedTickets.add(ticket);
                     System.out.println(name + " is ready for ticket number " + queueTicket.getTicketNumber());
                 }
-                Thread.sleep(67);
+                Thread.sleep(CAROUSEL_SPINNING_TIME);
                 totalWeight.removeWeight(sumWeight);
                 waitingQueue.clear();
             }
