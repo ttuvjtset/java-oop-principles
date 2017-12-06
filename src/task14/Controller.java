@@ -36,21 +36,17 @@ public class Controller {
         long sumWeight = pool.invoke(new PackageCounter(aPackages));
         System.out.println("calculated with fork/join: " + sumWeight);
 
+        long temp = 0L;
 
-        Future<String> future = calculateAsyncWithCancellation();
-        future.get(); // CancellationException
+
+        CompletableFuture // javascritptis promise, chtoto delajetsja kakojeto vremja, potom poluchajetsja rezultat
+                //+			// job that is done asynchronously
+ 			//.supplyAsync(Details::new) // delajet novij thread, massivnija operacija, rjad, kotoij chto delajet < async, ne zdjot poka sdelajet!
+                .supplyAsync(() -> new PackageSplitter(aPackages))
+                //+			// when this job is finised, do this action with a result
+ 			.thenAccept(d -> System.out.println(d.findSmallest()));
     }
 
-    public static Future<String> calculateAsyncWithCancellation() throws InterruptedException {
-        CompletableFuture<String> completableFuture = new CompletableFuture<>();
 
-        Executors.newCachedThreadPool().submit(() -> {
-            Thread.sleep(7);
-            completableFuture.cancel(false);
-            return null;
-        });
-
-        return completableFuture;
-    }
 
 }
