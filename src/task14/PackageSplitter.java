@@ -3,20 +3,19 @@ package task14;
 import java.util.ArrayList;
 import java.util.OptionalInt;
 
-public class PackageSplitter {
-    ArrayList<Package> packageArrayList = new ArrayList<>();
+class PackageSplitter {
+    private ArrayList<Package> packages = new ArrayList<>();
 
-    public PackageSplitter(ArrayList<Package> packageArrayList) {
-        this.packageArrayList = packageArrayList;
+    PackageSplitter(ArrayList<Package> packages) {
+        this.packages = packages;
     }
 
-    public int  findSmallest() {
-        OptionalInt optionalInt = packageArrayList.parallelStream().mapToInt(Package::getWeight).min();
+    int findSmallest() {
+        OptionalInt optionalInt = packages.parallelStream().mapToInt(Package::getWeight).min();
 
         if (optionalInt.isPresent()) {
             return optionalInt.getAsInt();
-        } else {
-            return 0;
         }
+        return 0;
     }
 }

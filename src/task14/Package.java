@@ -16,7 +16,7 @@ public class Package {
         return id;
     }
 
-    public int getWeight() {
+    int getWeight() {
         return weight;
     }
 

@@ -1,9 +1,9 @@
 package task14;
 
-import bank_forkjoin_example.CoinCounter;
-
 import java.util.ArrayList;
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Controller {
@@ -12,16 +12,16 @@ public class Controller {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         AtomicInteger uniqueID = new AtomicInteger(1);
 
-        ArrayList<Package> aPackages = new ArrayList<>();
+        ArrayList<Package> packages = new ArrayList<>();
 
         for (int i = 0; i < 1000; i++) {
-            aPackages.add(new Package(uniqueID));
-            System.out.println(aPackages.size());
+            packages.add(new Package(uniqueID));
+            System.out.println(packages.size());
         }
 
-        System.out.println(aPackages);
+        System.out.println(packages);
 
-        int packagesTotalWeight = aPackages.parallelStream()
+        int packagesTotalWeight = packages.parallelStream()
                 .mapToInt(Package::getWeight)
                 .sum();
 
@@ -33,7 +33,7 @@ public class Controller {
 
         //pool.execute(countPackagesTask);
 
-        long sumWeight = pool.invoke(new PackageCounter(aPackages));
+        long sumWeight = pool.invoke(new PackageCounter(packages));
         System.out.println("calculated with fork/join: " + sumWeight);
 
         long temp = 0L;
@@ -41,12 +41,11 @@ public class Controller {
 
         CompletableFuture // javascritptis promise, chtoto delajetsja kakojeto vremja, potom poluchajetsja rezultat
                 //+			// job that is done asynchronously
- 			//.supplyAsync(Details::new) // delajet novij thread, massivnija operacija, rjad, kotoij chto delajet < async, ne zdjot poka sdelajet!
-                .supplyAsync(() -> new PackageSplitter(aPackages))
+                //.supplyAsync(Details::new) // delajet novij thread, massivnija operacija, rjad, kotoij chto delajet < async, ne zdjot poka sdelajet!
+                .supplyAsync(() -> new PackageSplitter(packages))
                 //+			// when this job is finised, do this action with a result
- 			.thenAccept(d -> System.out.println(d.findSmallest()));
+                .thenAccept(d -> System.out.println(d.findSmallest()));
     }
-
 
 
 }
