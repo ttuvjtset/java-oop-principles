@@ -3,14 +3,13 @@ package task14;
 import bank_forkjoin_example.CoinCounter;
 
 import java.util.ArrayList;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Controller {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
         AtomicInteger uniqueID = new AtomicInteger(1);
 
         ArrayList<Package> aPackages = new ArrayList<>();
@@ -37,6 +36,21 @@ public class Controller {
         long sumWeight = pool.invoke(new PackageCounter(aPackages));
         System.out.println("calculated with fork/join: " + sumWeight);
 
+
+        Future<String> future = calculateAsyncWithCancellation();
+        future.get(); // CancellationException
+    }
+
+    public static Future<String> calculateAsyncWithCancellation() throws InterruptedException {
+        CompletableFuture<String> completableFuture = new CompletableFuture<>();
+
+        Executors.newCachedThreadPool().submit(() -> {
+            Thread.sleep(7);
+            completableFuture.cancel(false);
+            return null;
+        });
+
+        return completableFuture;
     }
 
 }
