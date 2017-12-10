@@ -10,7 +10,6 @@ public class Client implements Runnable {
     private List<Vehicle> boughtVehicles;
     private String clientName;
 
-
     Client(VehicleShop vehicleShop, Predicate<? super Vehicle> lambda, String clientName) {
         this.vehicleShop = vehicleShop;
         this.lambda = lambda;
@@ -18,13 +17,17 @@ public class Client implements Runnable {
         this.clientName = clientName;
     }
 
+    public List<Vehicle> getBoughtVehicles() {
+        return boughtVehicles;
+    }
+
     @Override
     public void run() {
         while (!Thread.interrupted()) {
 
-                Vehicle vehicle = vehicleShop.popVehicleIfExists(lambda);
-                boughtVehicles.add(vehicle);
-                System.out.println(clientName + " " + vehicle);
+            Vehicle vehicle = vehicleShop.popVehicleIfExists(lambda);
+            boughtVehicles.add(vehicle);
+            System.out.println(clientName + " " + vehicle);
 
         }
     }

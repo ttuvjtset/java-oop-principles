@@ -16,13 +16,20 @@ public class Constructor {
         int secondDistributorLimit = 200 - firstDistributorLimit;
         System.out.println(firstDistributorLimit + " " + secondDistributorLimit);
 
-        Future<Double> distributorSeaVehicles = executor.submit(new Distributor(firstDistributorLimit,
+        Future<Integer> distributorSeaVehicles = executor.submit(new Distributor(firstDistributorLimit,
                 "sea", vehicleShop));
-        Future<Double> distributorGroundVehicles = executor.submit(new Distributor(secondDistributorLimit,
+        Future<Integer> distributorGroundVehicles = executor.submit(new Distributor(secondDistributorLimit,
                 "ground", vehicleShop));
 
         executor.submit(new Client(vehicleShop, s -> s.getVehiclePrice() < 5000, "Less than 5000"));
-        executor.submit(new Client(vehicleShop, Vehicle::isVehicleWithSail, "Sail"));
+        executor.submit(new Client(vehicleShop, s -> {
+            if (s instanceof SeaVehicle) {
+                SeaVehicle seaVehicle = (SeaVehicle) s;
+                return seaVehicle.isVehicleWithSail();
+            } else {
+                return false;
+            }
+        }, "Sail"));
         executor.submit(new Client(vehicleShop, s -> s.getRegistrationYear() < 2010 && s.getVehiclePrice() < 4500,
                 "older than 2010 and less then 4500"));
 

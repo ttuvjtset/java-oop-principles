@@ -1,14 +1,23 @@
 package kt2_2016;
 
-public abstract class Vehicle {
+public interface Vehicle {
 
-    abstract double getVehiclePrice();
+    double getVehiclePrice();
 
-    abstract int getRegistrationYear();
+    int getRegistrationYear();
 
-    abstract String getManufactureName();
-
-    public boolean isVehicleWithSail() {
-        return false;
-    }
+    String getManufactureName();
 }
+
+//public abstract class Vehicle {
+//
+//    abstract double getVehiclePrice();
+//
+//    abstract int getRegistrationYear();
+//
+//    abstract String getManufactureName();
+//
+//    public boolean isVehicleWithSail() {
+//        return false;
+//    }
+//}

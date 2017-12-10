@@ -21,13 +21,13 @@ public class VehicleShop {
         }
     }
 
-    Vehicle popVehicleIfExists(Predicate<? super Vehicle> lambda){
+    Vehicle popVehicleIfExists(Predicate<? super Vehicle> filterLambda) {
 
         synchronized (vehicles) {
             Optional<Vehicle> vehicleInContainer = Optional.empty();
             while (!vehicleInContainer.isPresent()) {
 
-                vehicleInContainer = vehicles.stream().filter(lambda).findFirst();
+                vehicleInContainer = vehicles.stream().filter(filterLambda).findFirst();
                 if (!vehicleInContainer.isPresent()) {
                     try {
                         vehicles.wait();

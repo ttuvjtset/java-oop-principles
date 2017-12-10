@@ -1,6 +1,6 @@
 package kt2_2016;
 
-public class GroundVehicle extends Vehicle {
+public class GroundVehicle implements Vehicle {
     private double vehiclePrice;
     private int registrationYear;
     private String manufactureName;

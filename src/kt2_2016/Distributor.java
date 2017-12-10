@@ -4,32 +4,32 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 
 
-public class Distributor implements Callable<Double> {
+public class Distributor implements Callable<Integer> {
     private static final int MAX_VEHICLE_PRICE = 8000;
     private static final int MIN_VEHICLE_PRICE = 2000;
 
-    private double vehicleLimit;
+    private int vehicleLimit;
     private String vehicleType;
     private VehicleShop vehicleShop;
 
-    Distributor(double vehicleLimit, String vehicleType, VehicleShop vehicleShop) {
+    Distributor(int vehicleLimit, String vehicleType, VehicleShop vehicleShop) {
         this.vehicleLimit = vehicleLimit;
         this.vehicleType = vehicleType;
         this.vehicleShop = vehicleShop;
     }
 
     @Override
-    public Double call() throws Exception {
+    public Integer call() throws Exception {
 
-        double counter = 0;
+        int counter = 0;
         while (counter < vehicleLimit) {
             System.out.println("iterating");
             int vehiclePrice = new Random().nextInt(MAX_VEHICLE_PRICE - MIN_VEHICLE_PRICE) + MIN_VEHICLE_PRICE;
 
-            int vehicleRegistrationYear = 0;
+            int vehicleRegistrationYear;
             boolean seaVehicleWithSails = false;
 
-            if (firstHalfOfTotalOrder(counter)) {
+            if (firstHalfOfOrders(counter)) {
                 vehicleRegistrationYear = 2009;
             } else {
                 vehicleRegistrationYear = 2011;
@@ -52,7 +52,8 @@ public class Distributor implements Callable<Double> {
         return counter;
     }
 
-    private boolean firstHalfOfTotalOrder(double counter) {
-        return (counter / vehicleLimit) < 0.5;
+    private boolean firstHalfOfOrders(int counter) {
+        double vehicleLimitDouble = vehicleLimit;
+        return ((double) counter / vehicleLimitDouble) < 0.5;
     }
 }
