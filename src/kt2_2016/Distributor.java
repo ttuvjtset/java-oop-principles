@@ -1,5 +1,8 @@
 package kt2_2016;
 
+import kt2_2016.vehicle.GroundVehicle;
+import kt2_2016.vehicle.SeaVehicle;
+
 import java.util.Random;
 import java.util.concurrent.Callable;
 

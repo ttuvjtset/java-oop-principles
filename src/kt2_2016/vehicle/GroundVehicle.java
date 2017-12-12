@@ -1,4 +1,4 @@
-package kt2_2016;
+package kt2_2016.vehicle;
 
 public class GroundVehicle implements Vehicle {
     private double vehiclePrice;
@@ -12,7 +12,7 @@ public class GroundVehicle implements Vehicle {
         this.manufactureName = manufactureName;
     }
 
-    GroundVehicle(double vehiclePrice, int registrationYear, String manufactureName, int mileage) {
+    public GroundVehicle(double vehiclePrice, int registrationYear, String manufactureName, int mileage) {
         this.vehiclePrice = vehiclePrice;
         this.registrationYear = registrationYear;
         this.manufactureName = manufactureName;

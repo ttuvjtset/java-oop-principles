@@ -1,4 +1,4 @@
-package kt2_2016;
+package kt2_2016.vehicle;
 
 public interface Vehicle {
 

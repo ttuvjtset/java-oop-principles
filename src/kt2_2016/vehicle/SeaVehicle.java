@@ -1,9 +1,9 @@
-package kt2_2016;
+package kt2_2016.vehicle;
 
 public class SeaVehicle extends GroundVehicle {
     private boolean isVehicleWithSail = false;
 
-    SeaVehicle(double vehiclePrice, int registrationYear, String manufactureName, boolean isVehicleWithSail) {
+    public SeaVehicle(double vehiclePrice, int registrationYear, String manufactureName, boolean isVehicleWithSail) {
         super(vehiclePrice, registrationYear, manufactureName);
         this.isVehicleWithSail = isVehicleWithSail;
     }

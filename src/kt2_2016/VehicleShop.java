@@ -1,5 +1,7 @@
 package kt2_2016;
 
+import kt2_2016.vehicle.Vehicle;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
