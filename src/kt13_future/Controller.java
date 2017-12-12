@@ -12,6 +12,7 @@ public class Controller {
 
     public static void main(String[] args) throws Exception {
         AtomicInteger uniqueTicketIDs = new AtomicInteger(1);
+        //uniqueTicketIDs.set(10);
         TotalWeight totalWeight = new TotalWeight();
         TicketStorage storage = new TicketStorage();
         Flag flag = new Flag();

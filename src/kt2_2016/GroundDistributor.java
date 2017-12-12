@@ -1,24 +1,27 @@
 package kt2_2016;
 
 import kt2_2016.vehicle.GroundVehicle;
-import kt2_2016.vehicle.SeaVehicle;
 
 import java.util.Random;
 import java.util.concurrent.Callable;
 
 
-public class Distributor implements Callable<Integer> {
+public class GroundDistributor implements Callable<Integer> {
     private static final int MAX_VEHICLE_PRICE = 8000;
     private static final int MIN_VEHICLE_PRICE = 2000;
 
     private int vehicleLimit;
-    private String vehicleType;
+//    private String vehicleType;
     private VehicleShop vehicleShop;
 
-    Distributor(int vehicleLimit, String vehicleType, VehicleShop vehicleShop) {
+    GroundDistributor(int vehicleLimit, String vehicleType, VehicleShop vehicleShop) {
         this.vehicleLimit = vehicleLimit;
-        this.vehicleType = vehicleType;
+//        this.vehicleType = vehicleType;
         this.vehicleShop = vehicleShop;
+    }
+
+    VehicleShop getVehicleShop() {
+        return vehicleShop;
     }
 
     @Override
@@ -39,20 +42,18 @@ public class Distributor implements Callable<Integer> {
                 seaVehicleWithSails = true;
             }
 
-
-            if (vehicleType.equals("sea")) {
-                vehicleShop.addVehicle(new SeaVehicle(vehiclePrice, vehicleRegistrationYear, "Honda",
-                        seaVehicleWithSails));
-            } else if (vehicleType.equals("ground")) {
-                vehicleShop.addVehicle(new GroundVehicle(vehiclePrice, vehicleRegistrationYear, "Mercedes",
-                        50000));
-            }
+            createVehicle(vehiclePrice, vehicleRegistrationYear, seaVehicleWithSails);
 
             counter++;
             Thread.sleep(5);
         }
 
         return counter;
+    }
+
+    void createVehicle(int vehiclePrice, int vehicleRegistrationYear, boolean seaVehicleWithSails) {
+        vehicleShop.addVehicle(new GroundVehicle(vehiclePrice, vehicleRegistrationYear, "Mercedes",
+                50000));
     }
 
     private boolean firstHalfOfOrders(int counter) {
