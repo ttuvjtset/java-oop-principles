@@ -3,10 +3,10 @@ package task14;
 import java.util.ArrayList;
 import java.util.OptionalInt;
 
-class PackageSplitter {
+class SmallestPackageFinder {
     private ArrayList<Package> packages = new ArrayList<>();
 
-    PackageSplitter(ArrayList<Package> packages) {
+    SmallestPackageFinder(ArrayList<Package> packages) {
         this.packages = packages;
     }
 
